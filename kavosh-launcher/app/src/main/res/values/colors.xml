@@ -1,0 +1,6 @@
+<resources>
+    <color name="kavosh_background">#000000</color>
+    <color name="kavosh_surface">#1A1A1A</color>
+    <color name="kavosh_accent">#7C9BFF</color>
+    <color name="kavosh_on_surface">#F2F2F2</color>
+</resources>

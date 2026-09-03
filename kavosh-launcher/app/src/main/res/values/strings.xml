@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Kavosh</string>
+    <string name="search_hint">جستجوی اپ‌ها، محاسبه یا وب…</string>
+    <string name="all_apps">همه اپ‌ها</string>
+    <string name="add_widget">افزودن ویجت</string>
+    <string name="tag_apps">برچسب‌گذاری اپ</string>
+    <string name="no_results">نتیجه‌ای پیدا نشد</string>
+    <string name="search_web">جستجو در وب برای «%1$s»</string>
+</resources>
