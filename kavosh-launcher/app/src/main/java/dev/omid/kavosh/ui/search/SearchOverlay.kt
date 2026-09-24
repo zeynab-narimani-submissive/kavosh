@@ -30,7 +30,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.asImageBitmap
-import androidx.compose.core.graphics.drawable.toBitmap
+import androidx.core.graphics.drawable.toBitmap
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
@@ -39,11 +39,6 @@ import dev.omid.kavosh.R
 import dev.omid.kavosh.data.AppInfo
 import dev.omid.kavosh.search.SearchResult
 
-/**
- * The universal search screen: one text field, results ranked as apps first, then an inline
- * calculator answer if the query looks like math, then "search the web" as a guaranteed
- * fallback so a query is never a dead end.
- */
 @Composable
 fun SearchOverlay(
     query: String,
