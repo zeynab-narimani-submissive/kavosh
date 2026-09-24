@@ -16,6 +16,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import dev.omid.kavosh.LauncherViewModel
 import dev.omid.kavosh.data.AppInfo
 import dev.omid.kavosh.ui.drawer.AppContextMenu
@@ -47,14 +48,14 @@ fun LauncherRoot(
     var contextMenuApp by remember { mutableStateOf<AppInfo?>(null) }
     var tagEditApp by remember { mutableStateOf<AppInfo?>(null) }
 
-    val apps by viewModel.apps.collectAsStateSafe()
-    val allTags by viewModel.allTags.collectAsStateSafe()
-    val activeTagFilter by viewModel.activeTagFilter.collectAsStateSafe()
-    val searchQuery by viewModel.searchQuery.collectAsStateSafe()
-    val searchResults by viewModel.searchResults.collectAsStateSafe()
-    val placedWidgetIds by viewModel.placedWidgetIds.collectAsStateSafe()
+    val apps: List<AppInfo> by viewModel.apps.collectAsStateWithLifecycle()
+    val allTags: Set<String> by viewModel.allTags.collectAsStateWithLifecycle()
+    val activeTagFilter: String? by viewModel.activeTagFilter.collectAsStateWithLifecycle()
+    val searchQuery: String by viewModel.searchQuery.collectAsStateWithLifecycle()
+    val searchResults by viewModel.searchResults.collectAsStateWithLifecycle()
+    val placedWidgetIds: List<Int> by viewModel.placedWidgetIds.collectAsStateWithLifecycle()
 
-    val pinnedApps = remember(apps) { apps.filter { PINNED_TAG in it.tags } }
+    val pinnedApps: List<AppInfo> = remember(apps) { apps.filter { app -> PINNED_TAG in app.tags } }
     val searchFocusRequester = remember { FocusRequester() }
 
     BackHandler(enabled = screen != Screen.HOME) {
@@ -81,7 +82,7 @@ fun LauncherRoot(
             onOpenSearch = { screen = Screen.SEARCH },
             onAddWidget = onRequestAddWidget,
             onAppClick = ::launchAndReturnHome,
-            onAppLongClick = { contextMenuApp = it },
+            onAppLongClick = { app -> contextMenuApp = app },
         )
 
         AnimatedVisibility(
@@ -100,7 +101,7 @@ fun LauncherRoot(
                     activeTagFilter = activeTagFilter,
                     onTagFilterChange = viewModel::setTagFilter,
                     onAppClick = ::launchAndReturnHome,
-                    onAppLongClick = { contextMenuApp = it },
+                    onAppLongClick = { app -> contextMenuApp = app },
                 )
             }
         }
@@ -173,8 +174,3 @@ fun LauncherRoot(
         }
     }
 }
-
-/** Thin rename so call sites read clearly; delegates straight to the standard lifecycle-aware collector. */
-@Composable
-private fun <T> kotlinx.coroutines.flow.StateFlow<T>.collectAsStateSafe() =
-    androidx.lifecycle.compose.collectAsStateWithLifecycle(this)
