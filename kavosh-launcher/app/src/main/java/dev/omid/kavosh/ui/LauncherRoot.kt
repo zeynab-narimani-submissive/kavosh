@@ -177,4 +177,4 @@ fun LauncherRoot(
 /** Thin rename so call sites read clearly; delegates straight to the standard lifecycle-aware collector. */
 @Composable
 private fun <T> kotlinx.coroutines.flow.StateFlow<T>.collectAsStateSafe() =
-    androidx.lifecycle.compose.collectAsStateWithLifecycle()
+    androidx.lifecycle.compose.collectAsStateWithLifecycle(this)
